@@ -1,0 +1,5 @@
+# Project exclude paths
+/ihrm_common/target/
+/ihrm_company/target/
+/ihrm_model/target/
+/ihrm_system/target/
