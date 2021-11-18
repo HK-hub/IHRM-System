@@ -9,8 +9,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ihrm_common" />
         <module name="ihrm_company" />
+        <module name="ihrm_registry" />
         <module name="ihrm_system" />
         <module name="ihrm_model" />
+        <module name="ihrm_employee" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,7 +23,9 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ihrm_common" options="-parameters" />
       <module name="ihrm_company" options="-parameters" />
+      <module name="ihrm_employee" options="-parameters" />
       <module name="ihrm_model" options="-parameters" />
+      <module name="ihrm_registry" options="-parameters" />
       <module name="ihrm_security" options="-parameters" />
       <module name="ihrm_system" options="-parameters" />
     </option>

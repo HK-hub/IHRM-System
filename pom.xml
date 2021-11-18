@@ -15,7 +15,8 @@
         <module>ihrm_model</module>
         <module>ihrm_company</module>
         <module>ihrm_system</module>
-        <module>ihrm_security</module>
+        <module>ihrm_employee</module>
+        <module>ihrm_registry</module>
     </modules>
 
     <properties>
@@ -26,9 +27,6 @@
         <fastjson.version>1.2.47</fastjson.version>
     </properties>
 
-
-
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -36,6 +34,17 @@
         <relativePath/>
     </parent>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Finchley.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -102,6 +111,24 @@
             <artifactId>shiro-redis</artifactId>
             <version>3.0.0</version>
         </dependency>
+
+        <!--POI-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -62,6 +62,7 @@ public class CompanyService {
      * 根据id查询企业
      */
     public Company findById(String id) {
+        System.out.println("查询企业ID： " + id);
         return companyDao.findById(id).get();
     }
 

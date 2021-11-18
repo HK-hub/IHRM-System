@@ -9,15 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 /**
  * @author HK意境
  */
-@Configuration
-public class SystemConfig extends WebMvcConfigurationSupport {
+//@Configuration
+public class SystemConfig /**extends WebMvcConfigurationSupport**/ {
 
-    @Autowired
+    /*@Autowired
     private JwtInterceptor jwtInterceptor;
 
-    /**
+    *//**
      * 添加拦截器的配置
-     */
+     *//*
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         //1.添加自定义拦截器
@@ -26,7 +26,7 @@ public class SystemConfig extends WebMvcConfigurationSupport {
                 addPathPatterns("/**").
                 //3.指定不拦截的url地址
                 excludePathPatterns("/sys/login","/frame/register/**");
-    }
+    }*/
 
 
 }

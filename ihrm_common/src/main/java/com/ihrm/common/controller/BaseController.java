@@ -30,6 +30,7 @@ public class BaseController {
     protected String companyId ;
     protected String companyName ;
     protected Claims claims ;
+    protected String userId ;
 
 
 
@@ -74,6 +75,7 @@ public class BaseController {
 
             this.companyId = primaryPrincipal.getCompanyId() ;
             this.companyName = primaryPrincipal.getCompany() ;
+            this.userId = primaryPrincipal.getUserId() ;
 
         }
     }

@@ -1,6 +1,7 @@
 #服务配置
 server:
   port: 9002
+  address: localhost
 #spring配置
 spring:
   #1.应用配置
@@ -28,3 +29,10 @@ jwt:
     salt: ihrm_system
     expireTime: 10800000 # 3小时失效
 
+
+
+#服务注册中心实例的主机名
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/

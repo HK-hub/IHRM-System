@@ -11,6 +11,7 @@ import com.ihrm.domain.company.response.DeptListResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -87,6 +88,13 @@ public class DepartmentController extends BaseController{
     public Result delete(@PathVariable(value="id") String id) {
         departmentService.deleteById(id);
         return new Result(ResultCode.SUCCESS);
+    }
+
+
+    // 测试 feign
+    @RequestMapping(value = "/department/test",method = RequestMethod.GET)
+    public Result test(){
+        return new Result(ResultCode.SUCCESS, "调用成功过");
     }
 
 

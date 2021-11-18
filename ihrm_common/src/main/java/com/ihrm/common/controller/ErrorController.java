@@ -21,13 +21,13 @@ public class ErrorController {
 
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
-    public Result errors(@RequestParam(name = "code")int code){
+    public Result errors(@RequestParam(name = "code",required = false)int code){
        if (code == 1){
            return new Result(ResultCode.UNAUTHENTICATED) ;
        }else if (code == 2){
            return new Result(ResultCode.UNAUTHORISE) ;
        }else {
-           return new Result(ResultCode.SERVER_ERROR) ;
+           return new Result(ResultCode.UNAUTHENTICATED) ;
        }
 
     }

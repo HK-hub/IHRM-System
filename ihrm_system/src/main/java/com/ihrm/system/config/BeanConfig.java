@@ -25,7 +25,7 @@ public class BeanConfig {
     }
 
 
-    @Bean
+    //@Bean
     public JwtUtils getJwtUtils(){
         return new JwtUtils();
     }

@@ -55,18 +55,17 @@ public class ProfileController extends BaseController {
         //3. 调用 login 方法
         //4. 获取 sessionId
         //5. 构造返回对象
-
-        //1. 构造登录令牌
-        // 加密密码
        try {
-           String encryptPassword = new Md5Hash(password, mobile, 3).toString();
-           UsernamePasswordToken token = new UsernamePasswordToken(mobile,encryptPassword);
+           // 加密密码
+           password = new Md5Hash(password, mobile, 3).toString();
+           //1. 构造登录令牌
+           UsernamePasswordToken token = new UsernamePasswordToken(mobile,password);
 
            //2. 获取 subject
            Subject subject = SecurityUtils.getSubject();
            //3. 调用 login() 进入 realm 进行认证
            subject.login(token);
-           Serializable sessionId = subject.getSession().getId();
+           String sessionId = (String)subject.getSession().getId();
 
            //构造返回结果
            return new Result(ResultCode.SUCCESS, sessionId);
@@ -129,21 +128,16 @@ public class ProfileController extends BaseController {
          *
          */
 
-
-
-
-        System.out.println("进入profile 方法");
-
         // 获取session 中的安全数据
         Subject subject = SecurityUtils.getSubject();
-
-
 
         // 通过 subject 获取所有的安全数据集合
         PrincipalCollection principals = subject.getPrincipals();
 
         // 获取主体安全数据
-        ProfileResult primaryPrincipal = (ProfileResult) principals.getPrimaryPrincipal();
+        ProfileResult result = (ProfileResult) principals.getPrimaryPrincipal();
+
+        return new Result(ResultCode.SUCCESS, result);
 
         /*// 从请求头信息中获取token信息： Authorization=Bearer + " " + token
         String authorization = request.getHeader("Authorization");
@@ -178,10 +172,6 @@ public class ProfileController extends BaseController {
             List allPermissions = permissionService.findAll(map);
             profileResult = new ProfileResult(byId, allPermissions);
         }*/
-
-        System.out.println("primaryPrincipal: " + primaryPrincipal.toString());
-
-        return new Result(ResultCode.SUCCESS, primaryPrincipal);
     }
 
 

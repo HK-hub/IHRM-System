@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @Version : 1.0
  */
 @Configuration
-public class BeanConfig {
+public class CompanyBeanConfig {
 
     @Bean
     public IdWorker getIdWorker(){
