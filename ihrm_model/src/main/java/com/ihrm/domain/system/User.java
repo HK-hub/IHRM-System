@@ -113,6 +113,9 @@ public class User implements Serializable , AuthCachePrincipal {
      */
     private String level ;
 
+    /**
+     * 用户头像
+     */
     private String staffPhoto ;
 
     private String timeOfDimission ;

@@ -92,6 +92,12 @@ public class UserResult implements Serializable {
 
     private String departmentName;
 
+    /**
+     * 用户头像
+     */
+    private String staffPhoto ;
+
+
     // 添加用户 角色ID 列表
     private List<String> roleIds = new ArrayList<>();
 

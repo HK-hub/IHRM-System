@@ -16,9 +16,10 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -173,6 +174,32 @@ public class ProfileController extends BaseController {
             profileResult = new ProfileResult(byId, allPermissions);
         }*/
     }
+
+    /**
+     * @methodName :
+     * @author : HK意境
+     * @date : 2021/11/20 15:23
+     * @description : 七牛云存储，实现用户头像
+     * @Todo : 上传用户头像，实现用户头像自定义
+     * @params :
+         * @param : null
+     * @return : null
+     * @throws:
+     * @Bug :
+     * @Modified :
+     * @Version : 1.0
+     */
+    @RequestMapping(value = "/user/upload/{id}",method = RequestMethod.GET)
+    public Result avatarImage(@PathVariable(name = "id")String id, @RequestParam(name = "file")MultipartFile file) throws IOException {
+
+        // 调用 service 保存图片，
+        String url = userService.uploadImage(id,file);
+
+        // 返回数据：url, data
+        Result result = new Result(ResultCode.SUCCESS, url);
+        return result ;
+    }
+
 
 
 }

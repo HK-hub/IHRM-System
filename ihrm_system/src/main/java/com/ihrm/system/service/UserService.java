@@ -1,6 +1,7 @@
 package com.ihrm.system.service;
 
 import com.ihrm.common.utils.IdWorker;
+import com.ihrm.common.utils.QiniuUploadUtil;
 import com.ihrm.domain.company.Department;
 import com.ihrm.domain.system.Role;
 import com.ihrm.domain.system.User;
@@ -14,16 +15,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author : HK意境
@@ -151,7 +151,6 @@ public class UserService {
     }
 
 
-
     /**
      * @methodName : 分配角色
      * @author : HK意境
@@ -222,5 +221,45 @@ public class UserService {
             userDao.save(user);
 
         }
+    }
+
+
+    /**
+     * @methodName : uploadImage
+     * @author : HK意境
+     * @date : 2021/11/20 15:27
+     * @description : 七牛云存储，实现用户头像
+     * @Todo : 上传，保存图片，返回 url 地址
+     * @params : 
+         * @param : id：用户id
+         * @param : file : 头像文件
+     * @return : 请求路径，url ,data url
+     * @throws: 
+     * @Bug :
+     * @Modified :
+     * @Version : 1.0
+     */
+    public String uploadImage(String id, MultipartFile file) throws IOException {
+
+        //查询用户
+        User user = userDao.findById(id).get();
+
+        if (user != null) {
+            //对图片bytes 数组进行base64编码
+            //String data = "data:image/png;base64,"+ Base64.encodeBase64String(file.getBytes());
+
+            // 将图片上传到七牛云存储
+            String imageName = user.getUsername()+"-"+user.getMobile();
+            String imageUrl = new QiniuUploadUtil().upload(imageName, file.getBytes());
+
+            //设置头像
+            user.setStaffPhoto(imageUrl);
+            userDao.save(user) ;
+
+            return imageUrl ;
+        }else {
+            return "null" ;
+        }
+
     }
 }
