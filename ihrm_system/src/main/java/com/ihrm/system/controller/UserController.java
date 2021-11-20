@@ -4,14 +4,24 @@ import com.ihrm.common.controller.BaseController;
 import com.ihrm.common.entity.PageResult;
 import com.ihrm.common.entity.Result;
 import com.ihrm.common.entity.ResultCode;
+import com.ihrm.common.poi.ExcelImportUtil;
+import com.ihrm.common.utils.POIUtils;
 import com.ihrm.domain.system.User;
 import com.ihrm.domain.system.response.UserResult;
 import com.ihrm.system.feign.DepartmentFeignClient;
 import com.ihrm.system.service.UserService;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -135,6 +145,62 @@ public class UserController extends BaseController {
     public Result delete(@PathVariable(value = "id") String id) {
         userService.deleteById(id);
         return new Result(ResultCode.SUCCESS);
+    }
+
+
+
+
+    /**
+     * @methodName : importUser
+     * @author : HK意境
+     * @date : 2021/11/18 22:13
+     * @description : 通过文件上传发送数据文件，
+     * @Todo : 批量添加 user 用户，
+     * @params : 
+         * @param : null 
+     * @return : null
+     * @throws: 
+     * @Bug :
+     * @Modified :
+     * @Version : 1.0
+     */
+    @RequestMapping(value = "/user/import", method = RequestMethod.POST)
+    public Result importUser(@RequestParam(name = "file") MultipartFile file) throws IOException {
+
+        /*// 1.解析 excel
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        // 获取 Sheet
+        XSSFSheet sheetAt = workbook.getSheetAt(0);
+
+        // 获取每一行，每一列
+        // 2.获取用户数据列表
+        List<User> users = new ArrayList<>();
+
+        for (int rowNum = 1; rowNum <= sheetAt.getLastRowNum(); rowNum++) {
+
+            // 更具索引获取每一行
+            Row row = sheetAt.getRow(rowNum);
+            Object[] values = new Object[row.getLastCellNum()];
+
+            for (int cellNum = 1; cellNum < row.getLastCellNum(); cellNum++) {
+                Cell cell = row.getCell(cellNum);
+                Object cellValue = POIUtils.getCellValue(cell);
+                values[cellNum] = cellValue ;
+
+            }
+            // 添加用户
+            User user = new User(values);
+            users.add(user);
+        }*/
+
+        // 通过报表导入工具批量导入用户
+        List<User> users = new ExcelImportUtil<User>(User.class).readExcel(file.getInputStream(), 1, 1);
+
+        // 3.批量保存用户
+        userService.saveAll(users,companyId,companyName);
+
+        Result result = new Result(ResultCode.SUCCESS,"导入数据成功!");
+        return result ;
     }
 
 }

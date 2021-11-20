@@ -5,17 +5,23 @@ import com.ihrm.common.controller.BaseController;
 import com.ihrm.common.entity.PageResult;
 import com.ihrm.common.entity.Result;
 import com.ihrm.common.entity.ResultCode;
+import com.ihrm.common.poi.ExcelExportUtil;
 import com.ihrm.common.utils.BeanMapUtils;
 import com.ihrm.domain.employee.*;
+import com.ihrm.domain.employee.response.EmployeeReportResult;
 import com.ihrm.employee.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController extends BaseController {
@@ -194,4 +200,37 @@ public class EmployeeController extends BaseController {
         PageResult<EmployeeArchive> pr = new PageResult(searchPage.getTotalElements(),searchPage.getContent());
         return new Result(ResultCode.SUCCESS,pr);
     }
+
+
+    /**
+     * 当月人事报表导出
+     *  使用模板打印的方式生成报表
+     */
+    @RequestMapping(value = "/export/{month}",method = RequestMethod.GET)
+    public void exportEmployeeReport(@PathVariable(name = "month") String month) throws Exception {
+        System.out.println("进入获取报表方法!!!");
+        try{
+            // 获取报表所依赖的数据
+            List<EmployeeReportResult> list = userCompanyPersonalService.findByReport(companyId,month);
+
+            // 加载模板
+            ClassPathResource resource = new ClassPathResource("excel-template/hr-template.xlsx");
+            FileInputStream fileInputStream = new FileInputStream(resource.getFile());
+
+            // 通过exportUtils 工具下载文件
+            new ExcelExportUtil<EmployeeReportResult>(EmployeeReportResult.class,2,2)
+                    .export(httpServletResponse , fileInputStream , list, month + "人事报表.xlsx");
+
+            //完成下载
+        }catch (Exception e){
+            System.out.println("出现异常");
+        }
+        System.out.println("导出报表成功");
+
+        //return new Result(ResultCode.SUCCESS, "导出报表成功");
+    }
+
+
+
+
 }

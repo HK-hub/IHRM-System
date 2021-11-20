@@ -1,15 +1,14 @@
 package com.ihrm.domain.system;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.ihrm.domain.poi.ExcelAttribute;
+import lombok.*;
 import org.crazycake.shiro.AuthCachePrincipal;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +21,7 @@ import java.util.Set;
 @Table(name = "bs_user")
 @Proxy(lazy = false)
 @Data
+@NoArgsConstructor
 @ToString
 public class User implements Serializable , AuthCachePrincipal {
     private static final long serialVersionUID = 4297464181093070302L;
@@ -33,10 +33,13 @@ public class User implements Serializable , AuthCachePrincipal {
     /**
      * 手机号码
      */
+    @ExcelAttribute(sort = 2)
     private String mobile;
+
     /**
      * 用户名称
      */
+    @ExcelAttribute(sort = 1)
     private String username;
     /**
      * 密码
@@ -59,21 +62,25 @@ public class User implements Serializable , AuthCachePrincipal {
     /**
      * 部门ID
      */
+    @ExcelAttribute(sort = 6)
     private String departmentId;
 
     /**
      * 入职时间
      */
+    @ExcelAttribute(sort = 5)
     private Date timeOfEntry;
 
     /**
      * 聘用形式
      */
+    @ExcelAttribute(sort = 4)
     private Integer formOfEmployment;
 
     /**
      * 工号
      */
+    @ExcelAttribute(sort = 3)
     private String workNumber;
 
     /**
@@ -121,4 +128,35 @@ public class User implements Serializable , AuthCachePrincipal {
     public String getAuthCacheKey() {
         return null;
     }
+
+
+    /**
+     * @methodName : 有参构造函数
+     * @author : HK意境
+     * @date : 2021/11/18 22:27
+     * @description :
+     * @Todo : 用来导入 excel 文件中的文件数据，来设置user 属性
+     * @params :
+         * @param : null
+     * @return : null
+     * @throws:
+     * @Bug :
+     * @Modified :
+     * @Version : 1.0
+     */
+    public User(Object[] values){
+
+        // Excel 每一列为 ： 用户名，手机号，工号，聘用形式，入职时间，部门编码
+        this.username = values[1].toString() ;
+        this.mobile = values[2].toString() ;
+        this.workNumber = new DecimalFormat("#").format(values[3]);
+        this.formOfEmployment = ((Double)values[4]).intValue() ;
+        this.timeOfEntry = (Date) values[5];
+        // 部门编码 != 部门id
+        this.departmentId = values[6].toString() ;
+
+    }
+
+
+
 }

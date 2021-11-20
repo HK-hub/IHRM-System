@@ -1,8 +1,10 @@
 package com.ihrm.system.service;
 
 import com.ihrm.common.utils.IdWorker;
+import com.ihrm.domain.company.Department;
 import com.ihrm.domain.system.Role;
 import com.ihrm.domain.system.User;
+import com.ihrm.system.feign.DepartmentFeignClient;
 import com.ihrm.system.mapper.RoleDao;
 import com.ihrm.system.mapper.UserDao;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -17,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +38,8 @@ import java.util.Map;
 @Service
 public class UserService {
 
+    @Autowired
+    private DepartmentFeignClient departmentFeignClient ;
 
     @Autowired
     private UserDao userDao;
@@ -178,5 +183,44 @@ public class UserService {
         //更新用户角色
         userDao.save(user) ;
 
+    }
+
+
+    /**
+     * @methodName : saveAll
+     * @author : HK意境
+     * @date : 2021/11/19 13:27
+     * @description :
+     * @Todo : 批量保存用户
+     * @params :
+         * @param : null
+     * @return : null
+     * @throws:
+     * @Bug :
+     * @Modified :
+     * @Version : 1.0
+     */
+    @Transactional
+    public void saveAll(List<User> users, String companyId, String companyName) {
+        for (User user : users) {
+            // 默认密码
+            user.setPassword(new Md5Hash("123456",user.getMobile(),3).toString());
+            // 设置用户ID
+            user.setId(""+idWorker.nextId());
+            // 基本属性
+            user.setCompanyId(companyId);
+            user.setCompanyName(companyName);
+            user.setLevel("user");
+
+            // 填充部门属性
+            Department byCode = departmentFeignClient.findByCode(user.getDepartmentId(), user.getCompanyId());
+            if (byCode != null) {
+                user.setDepartmentId(byCode.getId());
+                user.setDepartmentName(byCode.getName());
+            }
+
+            userDao.save(user);
+
+        }
     }
 }

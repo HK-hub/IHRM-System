@@ -90,11 +90,32 @@ public class DepartmentController extends BaseController{
         return new Result(ResultCode.SUCCESS);
     }
 
-
     // 测试 feign
     @RequestMapping(value = "/department/test",method = RequestMethod.GET)
     public Result test(){
         return new Result(ResultCode.SUCCESS, "调用成功过");
+    }
+
+
+    /**
+     * @methodName :
+     * @author : HK意境
+     * @date : 2021/11/19 13:39
+     * @description :
+     * @Todo : 更具部门编码，查询部门ID
+     * @params :
+         * @param : null
+     * @return : null
+     * @throws:
+     * @Bug :
+     * @Modified :
+     * @Version : 1.0
+     */
+    @RequestMapping(value="/department/search",method = RequestMethod.POST)
+    public Department findByCode(@RequestParam(value="code") String code,
+                                 @RequestParam(value="companyId") String companyId) {
+        Department dept = departmentService.findByCode(code,companyId);
+        return dept;
     }
 
 
