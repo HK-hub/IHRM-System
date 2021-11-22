@@ -36,12 +36,7 @@
             <artifactId>ihrm_model</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>ihrm_system</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+
 
         <!-- Eureka 注册中心客户端依赖-->
         <dependency>

@@ -7,9 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ihrm_registry" />
+        <module name="codeGenerator" />
         <module name="ihrm_common" />
         <module name="ihrm_company" />
-        <module name="ihrm_registry" />
         <module name="ihrm_system" />
         <module name="ihrm_model" />
         <module name="ihrm_employee" />

@@ -70,6 +70,9 @@ public class ShiroConfiguration {
         //匿名访问（所有人员可以使用）
         filterMap.put("/frame/login", "anon");
         filterMap.put("/auth/error", "anon");
+        filterMap.put("/sys/faceLogin/**", "anon") ;
+
+
         //认证之后访问（登录之后可以访问）
         filterMap.put("/**", "authc");
 

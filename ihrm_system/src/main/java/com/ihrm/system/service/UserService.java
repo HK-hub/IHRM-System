@@ -8,6 +8,8 @@ import com.ihrm.domain.system.User;
 import com.ihrm.system.feign.DepartmentFeignClient;
 import com.ihrm.system.mapper.RoleDao;
 import com.ihrm.system.mapper.UserDao;
+import com.ihrm.system.utils.BaiduAiUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +25,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * @author : HK意境
@@ -40,15 +46,16 @@ public class UserService {
 
     @Autowired
     private DepartmentFeignClient departmentFeignClient ;
-
     @Autowired
     private UserDao userDao;
-
     @Autowired
     private IdWorker idWorker;
-
     @Autowired
     private RoleDao roleDao ;
+    @Autowired
+    private BaiduAiUtil baiduAiUtil ;
+
+
     /**
      * 1.保存用户
      */
@@ -228,8 +235,8 @@ public class UserService {
      * @methodName : uploadImage
      * @author : HK意境
      * @date : 2021/11/20 15:27
-     * @description : 七牛云存储，实现用户头像
-     * @Todo : 上传，保存图片，返回 url 地址
+     * @description : 七牛云存储，实现用户头像，百度云人脸库
+     * @Todo : 上传，保存图片，返回 url 地址, 并且注册到百度云人脸库中
      * @params : 
          * @param : id：用户id
          * @param : file : 头像文件
@@ -245,18 +252,33 @@ public class UserService {
         User user = userDao.findById(id).get();
 
         if (user != null) {
-            //对图片bytes 数组进行base64编码
-            //String data = "data:image/png;base64,"+ Base64.encodeBase64String(file.getBytes());
 
             // 将图片上传到七牛云存储
             String imageName = user.getUsername()+"-"+user.getMobile();
             String imageUrl = new QiniuUploadUtil().upload(imageName, file.getBytes());
 
+            // 立即刷新图片缓存
+            int code = new QiniuUploadUtil().refreshImage(imageUrl);
+
             //设置头像
             user.setStaffPhoto(imageUrl);
             userDao.save(user) ;
 
+            //对图片bytes 数组进行base64编码
+            String imageBase64 = Base64.encodeBase64String(file.getBytes());
+
+            // 判断是否已经注册人脸信息
+            if (baiduAiUtil.faceExists(id)) {
+                // error_code == 0 ， ——> 进行更新
+                baiduAiUtil.faceUpdate(id, imageBase64);
+
+            }else {
+                // 进行注册
+                baiduAiUtil.faceRegister(id, imageBase64);
+            }
+
             return imageUrl ;
+
         }else {
             return "null" ;
         }

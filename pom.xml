@@ -17,6 +17,7 @@
         <module>ihrm_system</module>
         <module>ihrm_employee</module>
         <module>ihrm_registry</module>
+       <!-- <module>codeGenerator</module>-->
     </modules>
 
     <properties>
