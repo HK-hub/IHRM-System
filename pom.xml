@@ -17,7 +17,9 @@
         <module>ihrm_system</module>
         <module>ihrm_employee</module>
         <module>ihrm_registry</module>
-       <!-- <module>codeGenerator</module>-->
+        <module>ihrm_gateway</module>
+        <module>ihrm_socialSecurity</module>
+        <!-- <module>codeGenerator</module>-->
     </modules>
 
     <properties>

@@ -7,8 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ihrm_socialSecurity" />
         <module name="ihrm_registry" />
         <module name="codeGenerator" />
+        <module name="ihrm_gateway" />
         <module name="ihrm_common" />
         <module name="ihrm_company" />
         <module name="ihrm_system" />
@@ -25,9 +27,11 @@
       <module name="ihrm_common" options="-parameters" />
       <module name="ihrm_company" options="-parameters" />
       <module name="ihrm_employee" options="-parameters" />
+      <module name="ihrm_gateway" options="-parameters" />
       <module name="ihrm_model" options="-parameters" />
       <module name="ihrm_registry" options="-parameters" />
       <module name="ihrm_security" options="-parameters" />
+      <module name="ihrm_socialSecurity" options="-parameters" />
       <module name="ihrm_system" options="-parameters" />
     </option>
   </component>

@@ -1,0 +1,22 @@
+# 端口号
+server:
+  port: 9090
+  # 应用配置
+spring:
+  application:
+    name: ihrm-gateway
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: root
+
+# 配置路由规则
+#zuul:
+#  routes:
+#    ihrm-company:
+#      # 需要映射的路径地址
+#      path: /company/**
+#      # 映射路径对应的实际 url 路径
+#      url: http://127.0.0.1:9000
+#      # zuul 网关会自动的删除请求的前缀
+#      stripPrefix: false # 不删除请求前缀
