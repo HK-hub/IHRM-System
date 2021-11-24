@@ -21,7 +21,7 @@ import java.util.Map;
  * @author HK意境
  */
 @Configuration
-public class ShiroConfig {
+public class ShiroConfiguration {
 
     //1.创建realm
     @Bean

@@ -1,12 +1,12 @@
 #服务配置
 server:
-  port: 9000
+  port: 9004
   address: localhost
 #spring配置
 spring:
   #1.应用配置
   application:
-    name: ihrm-company #指定服务名
+    name: ihrm-social #指定服务名
   #2.数据库连接池
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,9 +23,9 @@ spring:
     show-sql: true
     open-in-view: true
 
+
 #服务注册中心实例的主机名
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:6868/eureka/
-

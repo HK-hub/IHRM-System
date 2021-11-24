@@ -19,6 +19,7 @@
         <module>ihrm_registry</module>
         <module>ihrm_gateway</module>
         <module>ihrm_socialSecurity</module>
+        <module>ihrm_attendance</module>
         <!-- <module>codeGenerator</module>-->
     </modules>
 

@@ -69,7 +69,7 @@ public class EmployeeController extends BaseController {
      * 员工个人信息读取
      */
     @RequestMapping(value = "/{id}/personalInfo", method = RequestMethod.GET)
-    public Result findPersonalInfo(@PathVariable(name = "id") String uid) throws Exception {
+    public Result findPersonalInfo(@PathVariable(name = "id",value = "id") String uid) throws Exception {
         UserCompanyPersonal info = userCompanyPersonalService.findById(uid);
         if(info == null) {
             info = new UserCompanyPersonal();
