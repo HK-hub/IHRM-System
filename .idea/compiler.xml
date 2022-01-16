@@ -9,6 +9,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ihrm_socialSecurity" />
         <module name="ihrm_registry" />
+        <module name="ihrm_attendance" />
+        <module name="ihrm_audit" />
         <module name="codeGenerator" />
         <module name="ihrm_gateway" />
         <module name="ihrm_common" />
@@ -24,6 +26,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ihrm_attendance" options="-parameters" />
+      <module name="ihrm_audit" options="-parameters" />
       <module name="ihrm_common" options="-parameters" />
       <module name="ihrm_company" options="-parameters" />
       <module name="ihrm_employee" options="-parameters" />
